@@ -1,10 +1,10 @@
 const BridgeMaker = require('../BridgeMaker');
 const BridgeRandomNumberGenerator = require('../BridgeRandomNumberGenerator');
-const { GAME_STRING } = require('../Constant');
 const BridgeData = require('../model/BridgeData');
-const Validation = require('../Validation');
+const { GAME_STRING } = require('../Constant');
 const InputView = require('../view/InputView');
 const OutputView = require('../view/OutputView');
+const Validation = require('../Validation');
 
 /**
  * 다리 건너기 게임을 관리하는 클래스
@@ -12,11 +12,17 @@ const OutputView = require('../view/OutputView');
 class BridgeGame {
   #bridgeData = new BridgeData();
 
+  /**
+   * 다리 건너기 게임을 시작하는 메서드
+   */
   startGame() {
     OutputView.printStart();
     InputView.readBridgeSize(this.inputLength.bind(this));
   }
 
+  /**
+   * 다리의 길이를 입력받은 후 검증 후 진행을 도와주는 메서드
+   */
   inputLength(number) {
     try {
       Validation.bridgeLength(Number(number));
@@ -28,6 +34,9 @@ class BridgeGame {
     }
   }
 
+  /**
+   * 다리의 길이를 넘겨받아 다리를 생성하고 저장하는 메서드
+   */
   makeAndSaveBridge(number) {
     const bridge = BridgeMaker.makeBridge(
       number,
@@ -36,6 +45,9 @@ class BridgeGame {
     this.#bridgeData.setBridge(bridge);
   }
 
+  /**
+   * 사용자의 이동 커맨드를 입력받아 검증한 후 진행을 도와주는 메서드
+   */
   inputMove(userKey) {
     try {
       Validation.wrongMove(userKey);
@@ -59,10 +71,10 @@ class BridgeGame {
     }
     return InputView.readMoving(this.inputMove.bind(this));
   }
+
   /**
    * 사용자가 이동한 칸을 틀렸을 때 사용하는 메서드
    */
-
   moveFail(userKey) {
     this.#bridgeData.setBridgeFailResult(userKey);
     this.showMoveResult();
@@ -116,6 +128,9 @@ class BridgeGame {
     InputView.readMoving(this.inputMove.bind(this));
   }
 
+  /**
+   * 사용자의 게임 재시작 여부 커맨드를 입력받아 진행을 도와주는 메서드
+   */
   inputGameCommand(userKey) {
     try {
       Validation.wrongRetryOrQuit(userKey);
@@ -126,6 +141,9 @@ class BridgeGame {
     }
   }
 
+  /**
+   * 게임 재시작 커맨드를 입력받아 재시작 혹은 게임 종료를 하는 메서드
+   */
   setGameBranch(userKey) {
     if (userKey === GAME_STRING.retry) {
       return this.retry();

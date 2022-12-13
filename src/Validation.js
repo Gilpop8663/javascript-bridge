@@ -1,4 +1,4 @@
-const { ERROR_MESSAGE, GAME_STRING } = require('./Constant');
+const { ERROR_MESSAGE, GAME_STRING, GAME_NUMBER } = require('./Constant');
 
 const Validation = {
   bridgeLength(number) {
@@ -6,7 +6,7 @@ const Validation = {
     this.bridgeInterger(number);
   },
   bridgeRange(number) {
-    if (number < 3 || number > 20) {
+    if (number < GAME_NUMBER.rangeStart || number > GAME_NUMBER.rangeEnd) {
       throw new Error(ERROR_MESSAGE.bridgeRange);
     }
   },

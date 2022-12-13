@@ -21,6 +21,11 @@ class BridgeGame {
     );
 
     this.#bridgeData.setBridge(bridge);
+    InputView.readMoving(this.inputMove.bind(this));
+  }
+
+  inputMove(move) {
+    console.log(move);
   }
 
   /**

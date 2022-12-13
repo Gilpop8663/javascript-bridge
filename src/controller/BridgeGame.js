@@ -10,6 +10,7 @@ const OutputView = require('../view/OutputView');
  */
 class BridgeGame {
   #bridgeData = new BridgeData();
+
   startGame() {
     OutputView.printStart();
     InputView.readBridgeSize(this.inputLength.bind(this));
@@ -20,44 +21,57 @@ class BridgeGame {
       number,
       BridgeRandomNumberGenerator.generate
     );
-
+    console.log(bridge);
     this.#bridgeData.setBridge(bridge);
     InputView.readMoving(this.inputMove.bind(this));
   }
 
-  inputMove(move) {
+  inputMove(userKey) {
     const bridge = this.#bridgeData.getBridge();
     const curIndex = this.#bridgeData.getIndex();
-    const isSuccess = this.move(bridge, curIndex, move);
+    const isSuccess = BridgeGame.move(bridge, curIndex, userKey);
     if (isSuccess) {
-      return this.moveSucess();
+      return this.moveSucess(userKey);
     }
 
-    return this.moveFail();
+    return this.moveFail(userKey);
   }
 
   /**
    * 사용자가 이동한 칸을 맞추었을 때 사용하는 메서드
    */
-  moveSucess() {
+  moveSucess(userKey) {
     this.#bridgeData.setIndex();
-    const bridge = this.#bridgeData.getBridge();
-    const curIndex = this.#bridgeData.getIndex();
-    if (curIndex < bridge.length) {
-      return InputView.readMoving(this.inputMove.bind(this));
+    this.#bridgeData.setBridgeSuccessResult(userKey);
+    this.showMoveResult();
+    const isFinish = this.#bridgeData.isFinish();
+    if (isFinish) {
+      return this.endGame();
     }
-
-    return this.endGame();
+    return InputView.readMoving(this.inputMove.bind(this));
   }
   /**
    * 사용자가 이동한 칸을 틀렸을 때 사용하는 메서드
    */
-  moveFail() {
+
+  moveFail(userKey) {
+    this.#bridgeData.setBridgeFailResult(userKey);
+    this.showMoveResult();
+    this.#bridgeData.setBridgeResultRecover();
     return this.retry();
+  }
+
+  /**
+   * 사용자가 다리를 이동한 결과를 출력하는 메서드
+   */
+  showMoveResult() {
+    const { upBridge, downBridge } = this.#bridgeData.getBridgeResult();
+    OutputView.printMap(upBridge, downBridge);
   }
   /**
    * 사용자가 다리를 끝까지 건넜을 때 사용하는 메서드
    */
+
   endGame() {}
 
   /**
@@ -65,8 +79,8 @@ class BridgeGame {
    * <p>
    * 이동을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
-  static move(bridge, index, move) {
-    if (bridge[index] === move) return true;
+  static move(bridge, index, userKey) {
+    if (bridge[index] === userKey) return true;
     return false;
   }
 

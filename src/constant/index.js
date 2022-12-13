@@ -3,9 +3,11 @@ const GAME_STRING = Object.freeze({
   down: 'D',
   success: 'O',
   fail: 'X',
+  space: ' ',
   retry: 'R',
   quit: 'Q',
-  resultWrapper: (result) => `[${result}]`,
+  dividingLine: ' | ',
+  resultWrapper: (result) => `[ ${result} ]`,
 });
 
 const GAME_MESSAGE = Object.freeze({

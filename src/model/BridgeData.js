@@ -1,4 +1,4 @@
-const { GAME_STRING } = require('../constant');
+const { GAME_STRING } = require('../Constant');
 
 /**
  * 다리 건너기 게임의 정보를 갖는 클래스
@@ -26,6 +26,10 @@ class BridgeData {
 
   getIndex() {
     return this.#curIndex;
+  }
+
+  isSuccess(userKey) {
+    return this.#bridge[this.#curIndex] === userKey;
   }
 
   isFinish() {

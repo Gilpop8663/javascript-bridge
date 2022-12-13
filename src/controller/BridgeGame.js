@@ -1,8 +1,8 @@
 const BridgeMaker = require('../BridgeMaker');
 const BridgeRandomNumberGenerator = require('../BridgeRandomNumberGenerator');
-const { GAME_STRING } = require('../constant');
+const { GAME_STRING } = require('../Constant');
 const BridgeData = require('../model/BridgeData');
-const { readBridgeSize } = require('../view/InputView');
+const Validation = require('../Validation');
 const InputView = require('../view/InputView');
 const OutputView = require('../view/OutputView');
 
@@ -18,24 +18,32 @@ class BridgeGame {
   }
 
   inputLength(number) {
+    try {
+      Validation.bridgeLength(Number(number));
+      this.makeAndSaveBridge(Number(number));
+      InputView.readMoving(this.inputMove.bind(this));
+    } catch (error) {
+      OutputView.printMessage(error.message);
+      InputView.readBridgeSize(this.inputLength.bind(this));
+    }
+  }
+
+  makeAndSaveBridge(number) {
     const bridge = BridgeMaker.makeBridge(
       number,
       BridgeRandomNumberGenerator.generate
     );
-    console.log(bridge);
     this.#bridgeData.setBridge(bridge);
-    InputView.readMoving(this.inputMove.bind(this));
   }
 
   inputMove(userKey) {
-    const bridge = this.#bridgeData.getBridge();
-    const curIndex = this.#bridgeData.getIndex();
-    const isSuccess = BridgeGame.move(bridge, curIndex, userKey);
-    if (isSuccess) {
-      return this.moveSucess(userKey);
+    try {
+      Validation.wrongMove(userKey);
+      this.move(userKey);
+    } catch (error) {
+      OutputView.printMessage(error.message);
+      InputView.readMoving(this.inputMove.bind(this));
     }
-
-    return this.moveFail(userKey);
   }
 
   /**
@@ -88,9 +96,13 @@ class BridgeGame {
    * <p>
    * 이동을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
-  static move(bridge, index, userKey) {
-    if (bridge[index] === userKey) return true;
-    return false;
+  move(userKey) {
+    const isSuccess = this.#bridgeData.isSuccess(userKey);
+    if (isSuccess) {
+      return this.moveSucess(userKey);
+    }
+
+    return this.moveFail(userKey);
   }
 
   /**
@@ -105,6 +117,16 @@ class BridgeGame {
   }
 
   inputGameCommand(userKey) {
+    try {
+      Validation.wrongRetryOrQuit(userKey);
+      this.setGameBranch(userKey);
+    } catch (error) {
+      OutputView.printMessage(error.message);
+      InputView.readGameCommand(this.inputGameCommand.bind(this));
+    }
+  }
+
+  setGameBranch(userKey) {
     if (userKey === GAME_STRING.retry) {
       return this.retry();
     }

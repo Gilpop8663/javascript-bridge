@@ -1,5 +1,6 @@
 const BridgeMaker = require('../BridgeMaker');
 const BridgeRandomNumberGenerator = require('../BridgeRandomNumberGenerator');
+const BridgeData = require('../model/BridgeData');
 const InputView = require('../view/InputView');
 const OutputView = require('../view/OutputView');
 
@@ -7,6 +8,7 @@ const OutputView = require('../view/OutputView');
  * 다리 건너기 게임을 관리하는 클래스
  */
 class BridgeGame {
+  #bridgeData = new BridgeData();
   startGame() {
     OutputView.printStart();
     InputView.readBridgeSize(this.inputLength.bind(this));
@@ -17,7 +19,8 @@ class BridgeGame {
       number,
       BridgeRandomNumberGenerator.generate
     );
-    console.log(bridge);
+
+    this.#bridgeData.setBridge(bridge);
   }
 
   /**

@@ -1,3 +1,5 @@
+const BridgeMaker = require('../BridgeMaker');
+const BridgeRandomNumberGenerator = require('../BridgeRandomNumberGenerator');
 const InputView = require('../view/InputView');
 const OutputView = require('../view/OutputView');
 
@@ -11,8 +13,13 @@ class BridgeGame {
   }
 
   inputLength(number) {
-    console.log(number);
+    const bridge = BridgeMaker.makeBridge(
+      number,
+      BridgeRandomNumberGenerator.generate
+    );
+    console.log(bridge);
   }
+
   /**
    * 사용자가 칸을 이동할 때 사용하는 메서드
    * <p>

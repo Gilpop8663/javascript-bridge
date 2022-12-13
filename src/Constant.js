@@ -38,4 +38,10 @@ const ERROR_MESSAGE = Object.freeze({
   wrongRetryOrQuit: `${ERROR_SUBJECT} 게임을 다시 시도할지 여부의 입력은 재시도: ${GAME_STRING.retry}, 종료: ${GAME_STRING.quit} 만 입력 가능합니다`,
 });
 
-module.exports = { GAME_MESSAGE, GAME_STRING, GAME_NUMBER, ERROR_MESSAGE };
+module.exports = {
+  GAME_MESSAGE,
+  GAME_STRING,
+  GAME_NUMBER,
+  ERROR_SUBJECT,
+  ERROR_MESSAGE,
+};

@@ -7,6 +7,8 @@ const GAME_STRING = Object.freeze({
   retry: 'R',
   quit: 'Q',
   dividingLine: ' | ',
+  koreanSuccess: '성공',
+  koreanFail: '실패',
   resultWrapper: (result) => `[ ${result} ]`,
 });
 

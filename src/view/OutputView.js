@@ -13,14 +13,20 @@ const OutputView = {
    * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
   printMap(upBridge, downBridge) {
+    const bridge = this.getUpAndDownStringBridge(upBridge, downBridge);
+
+    Console.print(bridge);
+  },
+
+  getUpAndDownStringBridge(upBridge, downBridge) {
     const stringUpBridge = GAME_STRING.resultWrapper(
       this.getStringBridge(upBridge)
     );
     const stringDownBridge = GAME_STRING.resultWrapper(
       this.getStringBridge(downBridge)
     );
-    const bridge = `${stringUpBridge}\n${stringDownBridge}`;
-    Console.print(bridge);
+
+    return `${stringUpBridge}\n${stringDownBridge}`;
   },
 
   getStringBridge(bridge) {
@@ -32,7 +38,31 @@ const OutputView = {
    * <p>
    * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
-  printResult() {},
+  printResult(upBridge, downBridge) {
+    const bridgeReulst = this.getUpAndDownStringBridge(upBridge, downBridge);
+    const result = `${GAME_MESSAGE.result}\n${bridgeReulst}\n`;
+    Console.print(result);
+  },
+  /**
+   * 게임의 성공 여부를 정해진 형식에 맞춰 출력한다.
+   * <p>
+   * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
+   */
+  printGameSuccessResult(isSuccess) {
+    if (isSuccess) {
+      Console.print(GAME_MESSAGE.showGameResult(GAME_STRING.koreanSuccess));
+      return;
+    }
+    Console.print(GAME_MESSAGE.showGameResult(GAME_STRING.koreanFail));
+  },
+  /**
+   * 게임의 시도 횟수를 정해진 형식에 맞춰 출력한다.
+   * <p>
+   * 출력을 위해 필요한 메서드의 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
+   */
+  printGameRetryCount(count) {
+    Console.print(GAME_MESSAGE.showGameRetryCount(count));
+  },
   /**
    * 게임을 종료하는 메서드
    */

@@ -46,7 +46,7 @@ class BridgeGame {
     this.showMoveResult();
     const isFinish = this.#bridgeData.isFinish();
     if (isFinish) {
-      return BridgeGame.endGame();
+      return this.endGame();
     }
     return InputView.readMoving(this.inputMove.bind(this));
   }
@@ -72,7 +72,13 @@ class BridgeGame {
   /**
    * 사용자가 다리를 끝까지 건넜을 때 사용하는 메서드
    */
-  static endGame() {
+  endGame() {
+    const { upBridge, downBridge } = this.#bridgeData.getBridgeResult();
+    const retryCount = this.#bridgeData.getRetryCount();
+    const isSuccess = this.#bridgeData.isFinish();
+    OutputView.printResult(upBridge, downBridge);
+    OutputView.printGameSuccessResult(isSuccess);
+    OutputView.printGameRetryCount(retryCount);
     OutputView.close();
   }
 

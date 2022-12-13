@@ -10,6 +10,8 @@ class BridgeData {
 
   #bridgeResult = [[], []];
 
+  #retryCount = 1;
+
   setBridge(bridge) {
     this.#bridge = bridge;
   }
@@ -62,6 +64,10 @@ class BridgeData {
       upBridge: this.#bridgeResult[0],
       downBridge: this.#bridgeResult[1],
     };
+  }
+
+  getRetryCount() {
+    return this.#retryCount;
   }
 }
 

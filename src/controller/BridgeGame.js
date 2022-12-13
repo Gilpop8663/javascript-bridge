@@ -46,7 +46,7 @@ class BridgeGame {
     this.showMoveResult();
     const isFinish = this.#bridgeData.isFinish();
     if (isFinish) {
-      return this.endGame();
+      return BridgeGame.endGame();
     }
     return InputView.readMoving(this.inputMove.bind(this));
   }
@@ -68,11 +68,13 @@ class BridgeGame {
     const { upBridge, downBridge } = this.#bridgeData.getBridgeResult();
     OutputView.printMap(upBridge, downBridge);
   }
+
   /**
    * 사용자가 다리를 끝까지 건넜을 때 사용하는 메서드
    */
-
-  endGame() {}
+  static endGame() {
+    OutputView.close();
+  }
 
   /**
    * 사용자가 칸을 이동할 때 사용하는 메서드

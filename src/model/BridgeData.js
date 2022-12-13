@@ -66,6 +66,10 @@ class BridgeData {
     };
   }
 
+  setRetryCount() {
+    this.#retryCount += 1;
+  }
+
   getRetryCount() {
     return this.#retryCount;
   }

@@ -1,5 +1,6 @@
 const BridgeMaker = require('../BridgeMaker');
 const BridgeRandomNumberGenerator = require('../BridgeRandomNumberGenerator');
+const { GAME_STRING } = require('../constant');
 const BridgeData = require('../model/BridgeData');
 const { readBridgeSize } = require('../view/InputView');
 const InputView = require('../view/InputView');
@@ -57,8 +58,8 @@ class BridgeGame {
   moveFail(userKey) {
     this.#bridgeData.setBridgeFailResult(userKey);
     this.showMoveResult();
-    this.#bridgeData.setBridgeResultRecover();
-    return this.retry();
+
+    return InputView.readGameCommand(this.inputGameCommand.bind(this));
   }
 
   /**
@@ -98,11 +99,16 @@ class BridgeGame {
    * 재시작을 위해 필요한 메서드의 반환 값(return value), 인자(parameter)는 자유롭게 추가하거나 변경할 수 있다.
    */
   retry() {
-    InputView.readGameCommand(this.inputGameCommand.bind(this));
+    this.#bridgeData.setRetryCount();
+    this.#bridgeData.setBridgeResultRecover();
+    InputView.readMoving(this.inputMove.bind(this));
   }
 
   inputGameCommand(userKey) {
-    console.log(userKey);
+    if (userKey === GAME_STRING.retry) {
+      return this.retry();
+    }
+    return this.endGame();
   }
 }
 

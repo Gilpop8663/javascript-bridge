@@ -6,8 +6,22 @@ class BridgeData {
 
   #bridge;
 
+  #curIndex = 0;
+
   setBridge(bridge) {
     this.#bridge = bridge;
+  }
+
+  getBridge() {
+    return this.#bridge;
+  }
+
+  setIndex() {
+    this.#curIndex += 1;
+  }
+
+  getIndex() {
+    return this.#curIndex;
   }
 }
 

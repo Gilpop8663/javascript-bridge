@@ -25,4 +25,13 @@ const GAME_NUMBER = Object.freeze({
   randomRangeEnd: 1,
 });
 
-module.exports = { GAME_MESSAGE, GAME_STRING, GAME_NUMBER };
+const ERROR_SUBJECT = '[ERROR]';
+
+const ERROR_MESSAGE = Object.freeze({
+  bridgeRange: `${ERROR_SUBJECT} 다리 길이는 ${GAME_NUMBER.rangeStart}부터 ${GAME_NUMBER.rangeEnd} 사이의 숫자여야 합니다.`,
+  interger: `${ERROR_SUBJECT} 다리 길이는 ${GAME_NUMBER.rangeStart}부터 ${GAME_NUMBER.rangeEnd} 사이의 정수여야 합니다.`,
+  wrongMove: `${ERROR_SUBJECT} 이동할 칸의 입력은 위: ${GAME_STRING.up}, 아래: ${GAME_STRING.down} 만 입력 가능합니다`,
+  wrongRetryOrQuit: `${ERROR_SUBJECT} 게임을 다시 시도할지 여부의 입력은 재시도: ${GAME_STRING.retry}, 종료: ${GAME_STRING.quit} 만 입력 가능합니다`,
+});
+
+module.exports = { GAME_MESSAGE, GAME_STRING, GAME_NUMBER, ERROR_MESSAGE };
